@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.ranger.dao.mapper.TypeMapper">
+    <!--    void saveTypeByName(@Param("name") String name);-->
+    <insert id="saveTypeByName">
+        INSERT INTO t_type (name)
+        VALUES (#{name});
+    </insert>
+    <!--    Type getTypeByName(@Param("name") String name);-->
+    <select id="getTypeByName" resultType="com.blog.ranger.dao.pojo.Type">
+        SELECT *
+        FROM t_type
+        WHERE name = #{name}
+        LIMIT 1;
+    </select>
+    <!--    Type getTypeById(@Param("id") Long id);-->
+    <select id="getTypeById" resultType="com.blog.ranger.dao.pojo.Type">
+        SELECT *
+        FROM t_type
+        WHERE id = #{id}
+        LIMIT 1;
+    </select>
+    <!--    List<Type> getTypes();-->
+    <select id="getTypes" resultType="com.blog.ranger.dao.pojo.Type">
+        SELECT *
+        FROM t_type
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    Type updateType(Long id, Type type);-->
+    <update id="updateType">
+        UPDATE t_type
+        SET name=#{type.name}
+        WHERE id = #{id};
+    </update>
+    <!--    void deleteTypeById(@Param("id") Integer id);-->
+    <delete id="deleteTypeById">
+        DELETE
+        FROM t_type
+        WHERE id = #{id};
+    </delete>
+    <!--    List<Type> getAllTypes();-->
+    <select id="getAllTypes" resultType="com.blog.ranger.dao.pojo.Type">
+        SELECT *
+        FROM t_type;
+    </select>
+    <!--    List<TypeVo> getHotTypes(Integer limit);-->
+    <select id="getHotTypes" resultType="com.blog.ranger.vo.TypeVo">
+        SELECT t_type.id, t_type.name, COUNT(t_type.id) count
+        FROM t_blog
+                 LEFT JOIN t_type ON t_blog.type_id = t_type.id
+        GROUP BY t_type.id
+        ORDER BY count DESC
+        LIMIT #{limit};
+    </select>
+    <!--    Integer getTypeCount();-->
+    <select id="getTypeCount" resultType="Integer">
+        SELECT COUNT(DISTINCT type_id)
+        FROM t_blog;
+    </select>
+</mapper>

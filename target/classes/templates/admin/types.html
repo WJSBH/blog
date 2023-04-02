@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类管理</title>
+    <link rel="stylesheet" th:href="@{/css/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/css/me.css}">
+    <link rel="stylesheet" th:href="@{/css/typo.css}">
+</head>
+
+<body>
+    <nav th:replace="_fragments :: adminMenu(2)" class="ui inverted attached segment">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui header item red-font">ADMIN</h2>
+                <a href="#" class="m-item item m-mobile-hidden"><i class="home icon"></i>博客</a>
+                <a href="#" class="active m-item item m-mobile-hidden"><i class="idea icon"></i>分类</a>
+                <a href="#" class="m-item item m-mobile-hidden"><i class="tags icon"></i>标签</a>
+                <div class="ui dropdown item right right aligned m-mobile-hidden m-item">
+                    <img src="https://www.fas.scot/wp-content/uploads/2017/09/texel_shearling_tup-300x224.jpg"
+                        class="ui avatar image">
+                    Hi, creator!
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="ui menu black icon button m-top-right m-mobile-show" id="sidebarButton">
+                <i class="sidebar icon"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="m-container-small m-padded-tb-massive">
+        <div class="ui container">
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <div class="header">提示：</div>
+                <p th:text="${message}"></p>
+            </div>
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="type, iterStat : ${typeList}">
+                        <td th:text="${iterStat.count + (page - 1)*10}">1</td>
+                        <td th:text="${type.name}">队列</td>
+                        <td>
+                            <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}" class="ui mini basic teal button">编辑</a>
+                            <a href="#" th:href="@{/admin/types/{id}/delete(id=${type.id})}" class="ui mini basic red button">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="6">
+                            <div class="ui pagination menu">
+                                <a th:href="@{/admin/types(page=${page}-1)}" class="item" th:unless="${page==1}">上一页</a>
+                                <a th:href="@{/admin/types(page=${page}+1)}" class="item" th:unless="${#lists.size(typeList) < 10}">下一页</a>
+                            </div>
+                            <a href="#" th:href="@{/admin/types/input}" class="right floated ui basic blue button">新增</a>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer class="ui inverted vertical segment m-padded-tb-massive">
+        <div class="ui center aligned container">
+            <div class="ui inverted stackable divided grid">
+                <div class="three wide column" style="display: flex; justify-content: center;">
+                    <img class="ui rounded image" th:src="@{/images/footer.jpg}" sizes="100%" width="200px">
+                </div>
+                <div class="three wide column">
+                    <h3 class="ui inverted header opacity-font">最新文章</h3>
+                    <div class="ui inverted link list">
+                        <a href="#" class="item">hello world</a>
+                        <a href="#" class="item">JavaSE</a>
+                        <a href="#" class="item">frameworks</a>
+                    </div>
+                </div>
+                <div class="seven wide column">
+                    <h3 class="ui inverted header opacity-font">About Me</h3>
+                    <p class="opacity-font">
+                        这是我的个人博客练手项目，欢迎评论。
+                    </p>
+                    <p class="opacity-font m-mobile-hidden">
+                        赞助网络乞丐👉
+                    </p>
+                    <p class="opacity-font m-mobile-show">
+                        赞助网络乞丐👇
+                    </p>
+                    <p class="thin-font opacity-font">
+                        Copyright©2023-2024 Designed by ntrRanger
+                    </p>
+                </div>
+                <div class="three wide column" style="display: flex; justify-content: center;">
+                    <img class="ui rounded image" th:src="@{/images/paycode.jpg}" sizes="100%" width="200px">
+                </div>
+                <div class=""></div>
+            </div>
+        </div>
+    </footer>
+
+
+        <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+        <script th:src="@{/js/semantic.min.js}"></script>
+        <script th:src="@{/lib/editormd/editormd.min.js}"></script>
+
+
+    <script>
+        $('#sidebarButton').click(function () {
+            $('.m-item').toggleClass('m-mobile-hidden');
+        });
+        $('.ui.dropdown').dropdown({
+            on: 'hover'
+        });
+        $('.message .close').on('click', function (){
+            $(this).
+                closest('.message').
+                transition('fade');
+        });
+    </script>
+</body>
+
+</html>

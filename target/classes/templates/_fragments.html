@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">博客详情</title>
+    <link rel="stylesheet" href="../static/css/semantic.min.css" th:href="@{/css/semantic.min.css}">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css"
+          th:href="@{/lib/editormd/css/editormd.min.css}">
+</head>
+<body>
+
+<nav th:fragment="adminMenu(n)" class="ui inverted attached segment">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui header item red-font">ADMIN</h2>
+            <a href="#" th:href="@{/admin/blogs}" class="m-item item m-mobile-hidden"
+               th:classappend="${n==1}? 'active'"><i class="home icon"></i>博客</a>
+            <a href="#" th:href="@{/admin/types}" class="m-item item m-mobile-hidden"
+               th:classappend="${n==2}? 'active'"><i class="idea icon"></i>分类</a>
+            <a href="#" th:href="@{/admin/tag}" class="m-item item m-mobile-hidden"
+               th:classappend="${n==3}? 'active'"><i class="tags icon"></i>标签</a>
+            <div class="ui dropdown item right right aligned m-mobile-hidden m-item">
+                <img src="https://www.fas.scot/wp-content/uploads/2017/09/texel_shearling_tup-300x224.jpg"
+                     th:src="${session.user.avatar}"
+                     class="ui avatar image">
+                <p class="ui item" th:text="'Hi, '+${session.user.nickname}"></p>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="ui menu black icon button m-top-right m-mobile-show" id="sidebarButton">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+<div th:fragment="blogMenu(n)" class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" class="item" th:href="@{/admin/blogs/input}" th:classappend="${n==1} ?'active'">发布</a>
+            <a href="#" class="item" th:href="@{/admin/blogs}" th:classappend="${n==2} ?'active'">列表</a>
+        </div>
+    </div>
+</div>
+<nav th:fragment="menu(n)" class="ui inverted attached segment">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui header item red-font">RANGER</h2>
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hidden" th:classappend="${n==1}? 'active'"><i
+                    class="home icon"></i>首页</a>
+            <a href="#" th:href="@{/type}" class="m-item item m-mobile-hidden" th:classappend="${n==2}? 'active'"><i
+                    class="idea icon"></i>分类</a>
+            <a href="#" th:href="@{/tag}" class="m-item item m-mobile-hidden" th:classappend="${n==3}? 'active'"><i
+                    class="tags icon"></i>标签</a>
+
+            <div class="m-item right item m-mobile-hidden">
+                <form method="post" th:action="@{/search}">
+                    <div class="ui icon inverted transparent input">
+                        <input type="text" placeholder="Search..." name="searchRegex">
+                        <i class="search link icon" th:onclick="'javascript:document.forms[0].submit();'"></i>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <a href="#" class="ui menu black icon button m-top-right m-mobile-show" id="sidebarButton">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+<div th:fragment="blogList(n)" class="ui attached segment">
+    <th:block th:each="blog : ${blogList}">
+        <!--        th:href="@{/detail/(blogId=${blog.id})}"-->
+        <div class="ui mobile reversed padded vertical segment">
+            <div class="ui stackable grid">
+                <div class="ui eleven wide column">
+                    <a class="ui" target="_blank" th:href="@{/detail/(blogId=${blog.id})}">
+                        <h3 class="ui header m-padded-tb-small" th:text="${blog.title}">天生万物一样人</h3>
+                    </a>
+                    <p class="opacity-font m-padded-tb-small" th:text="${blog.content}">
+                        混血术士
+                        1. 元素血承奥法（水）可以把任何有具有其他（火酸电）的法术转换成寒冷描述符法术
+                        2. 白龙血承和银龙血承可以使你的每个寒冷法术每有一个伤害骰伤害加一
+                        值得提出的是
+                        1. 没错，当你在能力栏改变法术描述符时，专长和冬巫职业特性的dc也会一并生效
+                        2. 建议摸到8环，拿到风暴束再进混血术士
+                        3. 塑能法术要过法穿，而咒法不需要
+                    </p>
+                    <div class="ui grid">
+                        <div class="ui eleven wide column">
+                            <div class="ui mini horizontal link list">
+                                <div class="item">
+                                    <img src="https://images.unsplash.com/photo-1679765384594-d4a73d11e0bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+                                         th:src="${blog.avatar}"
+                                         class="ui avatar image">
+                                    <div class="content">
+                                        <div class="header"><p class="header"
+                                                               th:text="${blog.username}">巴弗灭</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="calendar icon"></i><span
+                                        class="item"
+                                        th:text="'  '+${new java.text.SimpleDateFormat('yyyy-MM-dd').format(blog.updateTime)}">2023-11-24</span>
+                                </div>
+                                <div class="item">
+                                    <i class="eye icon"></i><span class="item"
+                                                                  th:text="'  '+${blog.views}">1145</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right aligned ui five wide column opacity-font">
+                            <th:block th:each="tag : ${blog.tagList}">
+                                <p class="ui red-font basic label m-padded-tb-small"
+                                   th:text="${tag.name}"></p>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui five wide column">
+                    <a href="#" target="_blank" th:href="@{/detail/(blogId=${blog.id})}">
+                        <img src="https://images.unsplash.com/photo-1679641051119-c4ce08021f7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                             th:src="${blog.firstPicture}"
+                             class="ui rounded image">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </th:block>
+
+
+    <div class="ui mobile reversed bottom attached segment">
+
+        <div class="ui middle aligned two column grid">
+            <div class="column">
+                <a class="ui red-font button"
+                   th:href="${n==1} ?
+                   @{/(page=${page}-1)} : (
+                    ${n==2} ?
+                        @{/type/(page=${page}-1, curType=${curType})} :
+                        @{/tag/(page=${page}-1, curTag=${curTag})}
+                   )"
+                   th:unless="${page}==1">上一页</a>
+            </div>
+            <div class="right aligned column">
+                <a class="ui red-font button"
+                   th:href="${n==1} ?
+                   @{/(page=${page}+1)} : (
+                    ${n==2} ?
+                        @{/type/(page=${page}+1, curType=${curType})} :
+                        @{/tag/(page=${page}+1, curTag=${curTag})}
+                   )"
+                   th:unless="${#lists.size(blogList)} < 5">下一页</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted stackable divided grid">
+            <div class="three wide column" style="display: flex; justify-content: center;">
+                <img class="ui rounded image" src="../static/images/footer.jpg" th:src="@{/images/footer.jpg}"
+                     sizes="100%" width="200px">
+            </div>
+            <div class="three wide column">
+                <h3 class="ui inverted header opacity-font">最新文章</h3>
+                <div class="ui inverted link list">
+                    <th:block th:each="blog:${footerList}">
+                        <a href="#" target="_blank" th:href="@{/detail/(blogId=${blog.id})}" class="item" th:text="${blog.title}">hello world</a>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="seven wide column">
+                <h3 class="ui inverted header opacity-font">About Me</h3>
+                <p class="opacity-font">
+                    这是我的个人博客练手项目，欢迎评论。
+                </p>
+                <p class="opacity-font m-mobile-hidden">
+                    赞助网络乞丐👉
+                </p>
+                <p class="opacity-font m-mobile-show">
+                    赞助网络乞丐👇
+                </p>
+                <p class="thin-font opacity-font">
+                    Copyright©2023-2024 Designed by ntrRanger
+                </p>
+            </div>
+            <div class="three wide column" style="display: flex; justify-content: center;">
+                <img class="ui rounded image" src="../static/images/paycode.jpg" th:src="@{/images/paycode.jpg}"
+                     sizes="100%" width="200px">
+            </div>
+            <div class=""></div>
+        </div>
+    </div>
+</footer>
+<th:block th:fragment="script">
+    <script src="../static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script src="../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+</th:block>
+
+</body>
+</html>

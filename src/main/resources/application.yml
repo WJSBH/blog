@@ -1,0 +1,31 @@
+server:
+  port: 8765
+spring:
+  datasource:
+    url: 
+    username: 
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      read-only: false
+  thymeleaf:
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+logging:
+  level:
+    root: info
+  file:
+    name: log/blog.log
+
+mybatis:
+  config-location: classpath:mybatis-config.xml

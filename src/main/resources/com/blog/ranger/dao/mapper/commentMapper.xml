@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.ranger.dao.mapper.CommentMapper">
+    <!--    void InsertComment(Comment comment);-->
+    <insert id="InsertComment">
+        INSERT INTO t_comment
+        VALUES (0,
+                #{nickname},
+                #{email},
+                #{content},
+                #{createTime},
+                #{blogId},
+                #{avatar});
+    </insert>
+    <!--    List<Comment> getCommentsByBlogId(Long blogId);-->
+    <select id="getCommentsByBlogId" resultType="com.blog.ranger.dao.pojo.Comment">
+        SELECT *
+        FROM t_comment
+        WHERE blog_id = #{blogId};
+    </select>
+</mapper>

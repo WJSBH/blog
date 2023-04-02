@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.ranger.dao.mapper.BlogMapper">
+    <!--Blog getBlogById(Long id);-->
+    <select id="getBlogById" resultType="com.blog.ranger.dao.pojo.Blog">
+        SELECT *
+        FROM t_blog
+        WHERE id = #{id}
+        LIMIT 1;
+    </select>
+    <!--List<Blog> getBlogList(Integer offset, Integer rows, String title, Long typeId, Boolean recommend);-->
+    <select id="getBlogList" resultType="com.blog.ranger.vo.BlogAdminVo">
+        SELECT t_blog.id id, title, t_type.name type_name, recommend, update_time
+        FROM t_blog
+                 LEFT JOIN t_type ON type_id = t_type.id
+        WHERE title like #{title}
+          AND IF(#{recommend} = 1, recommend = 1, 1)
+          AND IF(#{typeId}, type_id = #{typeId}, 1)
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    void insertBlog(Blog blog);-->
+    <insert id="insertBlog">
+        INSERT INTO t_blog
+        VALUES (0,
+                #{title},
+                #{content},
+                #{firstPicture},
+                #{flag},
+                #{views},
+                #{shareStatement},
+                #{commentLabeled},
+                #{published},
+                #{recommend},
+                #{createTime},
+                #{updateTime},
+                #{typeId});
+    </insert>
+    <!--    void updateBlog(Long id, Blog blog);-->
+    <update id="updateBlog">
+        UPDATE t_blog
+        SET title=#{blog.title},
+            content=#{blog.content},
+            first_picture=#{blog.firstPicture},
+            flag=#{blog.flag},
+            share_statement=#{blog.shareStatement},
+            comment_labeled=#{blog.commentLabeled},
+            published=#{blog.published},
+            recommend=#{blog.recommend},
+            update_time=#{blog.updateTime},
+            type_id=#{blog.typeId}
+        WHERE id = #{bid};
+    </update>
+    <!--void deleteBlog(Long id);-->
+    <delete id="deleteBlog">
+        DELETE
+        FROM t_blog
+        WHERE id = #{id};
+    </delete>
+    <!--    Blog getBlogByTitle(String title);-->
+    <select id="getBlogByTitle" resultType="com.blog.ranger.dao.pojo.Blog">
+        SELECT *
+        FROM t_blog
+        WHERE title = #{title};
+    </select>
+    <!--    List<BLogFrontVo> getBlogFrontListBySearch(String regex);-->
+    <select id="getBlogFrontListBySearch" resultType="com.blog.ranger.vo.BLogFrontVo">
+        SELECT t_blog.id,
+               title,
+               content,
+               first_picture,
+               t_blog.update_time,
+               views,
+               username,
+               avatar
+        FROM t_blog,
+             t_user
+        WHERE title LIKE #{regex}
+           OR content LIKE #{regex}
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    List<Blog> getBlogListByTime(Integer limit);-->
+    <select id="getBlogListByTime" resultType="com.blog.ranger.dao.pojo.Blog">
+        SELECT id, title
+        FROM t_blog
+        ORDER BY create_time DESC
+        LIMIT #{limit};
+    </select>
+    <!--    Integer getBlogCount();-->
+    <select id="getBlogCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM t_blog;
+    </select>
+    <!-- List<BLogFrontVo> getBlogFrontListByTypeId(Long typeId, Integer offset, Integer rows);-->
+    <select id="getBlogFrontListByTypeId" resultType="com.blog.ranger.vo.BLogFrontVo">
+        SELECT t_blog.id,
+               title,
+               content,
+               first_picture,
+               t_blog.update_time,
+               views,
+               username,
+               avatar
+        FROM t_blog,
+             t_user
+        WHERE type_id = #{typeId}
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    List<BLogFrontVo> getBlogFrontListByTagId(Long tagId, Integer offset, Integer rows);-->
+    <select id="getBlogFrontListByTagId" resultType="com.blog.ranger.vo.BLogFrontVo">
+        SELECT t_blog.id,
+               title,
+               content,
+               first_picture,
+               t_blog.update_time,
+               views,
+               username,
+               avatar
+        FROM t_blog
+                 LEFT JOIN t_blog_tag on t_blog.id = t_blog_tag.blog_id,
+             t_user
+        WHERE tag_id = #{tagId}
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    BlogDetailVo getBlogDetailById(Long id);-->
+    <select id="getBlogDetailById" resultType="com.blog.ranger.vo.BlogDetailVo">
+        SELECT t_blog.id,
+               username,
+               avatar,
+               t_blog.create_time,
+               t_blog.update_time,
+               views,
+               first_picture,
+               flag,
+               title,
+               content,
+               share_statement,
+               comment_labeled
+        FROM t_blog,
+             t_user
+        WHERE t_blog.id = #{id}
+        LIMIT 1;
+    </select>
+    <!--    void incrViewsById(Long blogId);  -->
+    <update id="incrViewsById">
+        UPDATE t_blog
+        SET views = views + 1
+        WHERE id = #{blogId};
+    </update>
+</mapper>

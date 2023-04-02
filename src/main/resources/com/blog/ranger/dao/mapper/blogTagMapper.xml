@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.ranger.dao.mapper.BlogTagMapper">
+    <!--    void deleteByTagId(Long tagId);-->
+    <delete id="deleteByTagId">
+        DELETE
+        FROM t_blog_tag
+        where tag_id = #{tagId};
+    </delete>
+    <!--void addTag(Long blogId, Long tagId);-->
+    <insert id="addTag">
+        INSERT INTO t_blog_tag
+        VALUES (0, #{blogId}, #{tagId});
+    </insert>
+    <!--void deleteByBlogId(Long blogId);-->
+    <delete id="deleteByBlogId">
+        DELETE
+        FROM t_blog_tag
+        where blog_id = #{blogId};
+    </delete>
+    <!--    List<Long> getTagIdListByBlogId(Long blogId);-->
+    <select id="getTagIdListByBlogId" resultType="Long">
+        SELECT tag_id
+        FROM t_blog_tag
+        WHERE blog_id = #{blogId};
+    </select>
+    <!--    List<Tag> getTagListByBlogId(Long blogId);-->
+    <select id="getTagListByBlogId" resultType="com.blog.ranger.dao.pojo.Tag">
+        SELECT tag_id id, t_tag.name name
+        FROM t_blog_tag
+                 LEFT JOIN t_tag ON t_blog_tag.tag_id = t_tag.id
+        WHERE blog_id = #{blogId};
+    </select>
+    <!--    List<TagVo> getHotTags(Integer limit);-->
+    <select id="getHotTags" resultType="com.blog.ranger.vo.TagVo">
+        SELECT t_tag.id, t_tag.name, COUNT(tag_id) count
+        FROM t_blog_tag
+                 LEFT JOIN t_tag on t_blog_tag.tag_id = t_tag.id
+        GROUP BY t_tag.id
+        ORDER BY count DESC
+        LIMIT #{limit};
+    </select>
+    <!--    Integer getTagCount(); -->
+    <select id="getTagCount" resultType="Integer">
+        SELECT COUNT(DISTINCT tag_id)
+        FROM t_blog_tag;
+    </select>
+</mapper>

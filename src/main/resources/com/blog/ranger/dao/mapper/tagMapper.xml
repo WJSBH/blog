@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.ranger.dao.mapper.TagMapper">
+
+    <!--List<Tag> getTags(@Param("page") Integer page, @Param("rows") Integer rows);-->
+    <select id="getTags" resultType="com.blog.ranger.dao.pojo.Tag">
+        SELECT *
+        FROM t_tag
+        LIMIT #{offset}, #{rows};
+    </select>
+    <!--    Tag getTagByName(String name);-->
+    <select id="getTagByName" resultType="com.blog.ranger.dao.pojo.Tag">
+        SELECT *
+        FROM t_tag
+        WHERE name = #{name}
+        LIMIT 1;
+    </select>
+    <!--    void addTag(String name);-->
+    <insert id="addTag">
+        INSERT INTO t_tag (name)
+        VALUES (#{name});
+    </insert>
+    <!-- void deleteById(Long id);-->
+    <delete id="deleteById">
+        DELETE
+        FROM t_tag
+        WHERE id = #{id};
+    </delete>
+    <!--Tag getTagById(Long id);-->
+    <select id="getTagById" resultType="com.blog.ranger.dao.pojo.Tag">
+        SELECT *
+        FROM t_tag
+        WHERE id = #{id};
+    </select>
+    <!--    void updateTag(@Param("id") Long id, @Param("name") String name);-->
+    <update id="updateTag">
+        UPDATE t_tag
+        SET name=#{name}
+        WHERE id = #{id};
+    </update>
+    <!--    List<Tag> getAllTags();-->
+    <select id="getAllTags" resultType="com.blog.ranger.dao.pojo.Tag">
+        SELECT *
+        FROM t_tag;
+    </select>
+</mapper>

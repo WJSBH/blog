@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${curBlog.title}"></title>
+    <link rel="stylesheet" href="../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+</head>
+
+<body>
+<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui header item red-font">RANGER</h2>
+            <a href="#" class="m-item item m-mobile-hidden"><i class="home icon"></i>首页</a>
+            <a href="#" class="m-item item m-mobile-hidden"><i class="idea icon"></i>分类</a>
+            <a href="#" class="m-item item m-mobile-hidden"><i class="tags icon"></i>标签</a>
+            <a href="#" class="m-item item m-mobile-hidden"><i class="clone icon"></i>归档</a>
+            <div class="m-item right item m-mobile-hidden">
+                <div class="ui icon inverted transparent input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="ui menu black icon button m-top-right m-mobile-show" id="sidebarButton">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+
+<div class="m-container-small m-padded-tb-massive">
+    <div class="ui container">
+        <div class="ui top attached segment">
+            <div class="ui mini horizontal link list">
+                <div class="item">
+                    <img src="https://images.unsplash.com/photo-1679765384594-d4a73d11e0bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+                         th:src="${curBlog.avatar}"
+                         class="ui avatar image">
+                    <div class="content">
+                        <div class="header"><a href="#" class="header" th:text="${curBlog.username}">巴弗灭</a></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <i class="calendar icon"></i><span
+                        th:text="' ' + ${new java.text.SimpleDateFormat('yyyy-MM-dd').format(curBlog.updateTime)}"></span>
+                </div>
+                <div class="item">
+                    <i class="eye icon"></i><span th:text="${curBlog.views}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="ui attached segment">
+            <img src="https://images.unsplash.com/photo-1679641051119-c4ce08021f7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                 th:src="${curBlog.firstPicture}"
+                 class="ui fluid image rounded">
+        </div>
+        <div class="ui attached segment padded">
+            <div class="ui segment basic right aligned">
+                <div class="ui label orange basic" th:text="${curBlog.flag}">
+                    原创
+                </div>
+            </div>
+            <h2 class="ui header center aligned" th:text="${curBlog.title}">Linux 学习笔记</h2>
+            <div id="content" class="typo typo-selection m-padded-tb-lr m-padded-tb-massive js-toc-content"
+                 th:utext="${curBlog.content}">
+                <pre><code class="language-shell">cd /</code></pre>
+                <h3 id='01-主要目录'>01 主要目录</h3>
+                <figure>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>目录</th>
+                            <th>说明</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>/bin</strong></td>
+                            <td>Binary 存放经常使用的命令</td>
+                        </tr>
+                        <tr>
+                            <td>/sbin</td>
+                            <td>Super User root的系统管理程序</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/home</strong></td>
+                            <td>普通用户的主目录，每个用户有一个以用户名命名的子目录</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/root</strong></td>
+                            <td>root用户主目录</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/etc</strong></td>
+                            <td>系统管理所需配置文件和子目录</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/usr</strong></td>
+                            <td>用户的应用程序文件</td>
+                        </tr>
+                        <tr>
+                            <td>/lib</td>
+                            <td>动态连接共享库</td>
+                        </tr>
+                        <tr>
+                            <td>/lost+found</td>
+                            <td>非法关机后存放文件</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/boot</strong></td>
+                            <td>linux核心文件，连接文件镜像文件等</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/media</strong></td>
+                            <td>centos6中识别设备（u盘、光驱）挂载位置</td>
+                        </tr>
+                        <tr>
+                            <td>/proc</td>
+                            <td>系统内存映射</td>
+                        </tr>
+                        <tr>
+                            <td>/srv</td>
+                            <td>service 存放一些服务启动后需要的数据</td>
+                        </tr>
+                        <tr>
+                            <td>/sys</td>
+                            <td>2.6内核中新文件系统sysfs</td>
+                        </tr>
+                        <tr>
+                            <td>/tmp</td>
+                            <td>临时文件</td>
+                        </tr>
+                        <tr>
+                            <td>/dev</td>
+                            <td>设备管理器 硬件用文件形式储存</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/mnt</strong></td>
+                            <td>用于临时挂载其他文件系统，外部储存挂载在上面，进入mnt可查看</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/opt</strong></td>
+                            <td>额外安装软件所摆放的目录</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/var</strong></td>
+                            <td>经常被修改的目录，如日志</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </figure>
+                <h3 id='02-vim'>02 VIM</h3>
+                <h4 id='一般模式'>一般模式</h4>
+                <figure>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style='text-align:center;'>语法</th>
+                            <th style='text-align:center;'>功能描述</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style='text-align:center;'><strong>yy</strong></td>
+                            <td style='text-align:center;'>复制光标当前一行</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>y</strong> [数字] <strong>y</strong></td>
+                            <td style='text-align:center;'>复制一段（从第几行到第几行）</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>p</strong></td>
+                            <td style='text-align:center;'>箭头移动到目的行粘贴</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>u</strong></td>
+                            <td style='text-align:center;'>撤销上一步</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>dd</strong></td>
+                            <td style='text-align:center;'>删除光标当前行</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>d</strong></td>
+                            <td style='text-align:center;'>数字 d 删除光标（含）后多少行</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>x</strong></td>
+                            <td style='text-align:center;'>剪切一个字母，相当于 del</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>X</strong></td>
+                            <td style='text-align:center;'>剪切一个字母，相当于 Backspace</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>yw</strong></td>
+                            <td style='text-align:center;'>复制一个词</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>dw</strong></td>
+                            <td style='text-align:center;'>删除一个词</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'>
+                                <strong>shift</strong>+<strong>6</strong>（<strong>^</strong>）
+                            </td>
+                            <td style='text-align:center;'>移动到行头</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>shift</strong>+<strong>4</strong>
+                                （<strong>$</strong>）
+                            </td>
+                            <td style='text-align:center;'>移动到行尾</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'>
+                                <strong>1</strong>+<strong>shift</strong>+<strong>g</strong>
+                            </td>
+                            <td style='text-align:center;'>移动到页头，数字</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'><strong>shift</strong>+<strong>g</strong></td>
+                            <td style='text-align:center;'>移动到页尾</td>
+                        </tr>
+                        <tr>
+                            <td style='text-align:center;'>[数字]+<strong>shift</strong>+<strong>g</strong></td>
+                            <td style='text-align:center;'>移动到目标行</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </figure>
+                <h4 id='进入编辑模式'>进入编辑模式</h4>
+                <figure>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>按键</th>
+                            <th>功能</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>i</strong></td>
+                            <td>当前光标前</td>
+                        </tr>
+                        <tr>
+                            <td><strong>a</strong></td>
+                            <td>当前光标后</td>
+                        </tr>
+                        <tr>
+                            <td><strong>o</strong></td>
+                            <td>当前光标行的下一行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>I</strong></td>
+                            <td>光标所在行最前</td>
+                        </tr>
+                        <tr>
+                            <td><strong>A</strong></td>
+                            <td>光标所在行最后</td>
+                        </tr>
+                        <tr>
+                            <td><strong>O</strong></td>
+                            <td>当前光标行的上一行</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </figure>
+                <h4 id='指令模式'>指令模式</h4>
+                <figure>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>命令</th>
+                            <th>功能</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>:w</strong></td>
+                            <td>保存</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:q</strong></td>
+                            <td>退出</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:!</strong></td>
+                            <td>强制执行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>/</strong>[要查找的词]</td>
+                            <td>n 查找下一个，N 往上查找</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:noh</strong></td>
+                            <td>取消高亮显示</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:set nu</strong></td>
+                            <td>显示行号</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:set nonu</strong></td>
+                            <td>关闭行号</td>
+                        </tr>
+                        <tr>
+                            <td><strong>:%s/</strong>[old]<strong>/</strong>[new]<strong>/g</strong></td>
+                            <td>替换内容 /g 替换匹配到的所有内容</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </figure>
+                <h4 id='模式转换'>模式转换</h4>
+                <p>
+                <li>命令行 -&gt; vi xxx -&gt; 一般模式</li>
+                <li>一般模式 -&gt; ioaIOA -&gt; 编辑模式</li>
+                <li>编辑模式 -&gt; ESC -&gt; 一般模式</li>
+                <li>一般模式 -&gt; : / -&gt;指令模式</li>
+                <li>指令模式 -&gt; ESC -&gt; 一般模式</li>
+                <li>指令模式 -&gt; *q* -&gt; 命令行</li>
+                </p>
+            </div>
+            <div class="m-padded-tb-lr">
+                <th:block th:each="tag : ${curBlog.tagList}">
+                    <a href="#" th:href="@{/tag/(curTag=${tag.id})}" class="ui label basic red-font left pointing"
+                       th:text="${tag.name}">OS</a>
+                </th:block>
+            </div>
+
+        </div>
+        <div class="ui attached positive message">
+            <div class="ui middle aligned grid m-padded-tb-lr">
+                <div class="eleven wide column">
+                    <li>作者：<span th:text="${curBlog.username}"></span></li>
+                    <li>发表时间：<span
+                            th:text="${new java.text.SimpleDateFormat('yyyy-MM-dd').format(curBlog.createTime)}"></span>
+                    </li>
+                    <li><span th:if="${curBlog.shareStatement}">版权声明：自由转载-非商用</span></li>
+                </div>
+                <div class="five wide column">
+                    <img src="/images/footer.jpg" class="ui right floated rounded bordered image"
+                         style="width: 120px;">
+                </div>
+            </div>
+        </div>
+        <div id="comment-container" class="ui bottom attached segment">
+            <div class="ui segment m-padded-tb-lr">
+                <div class="ui comments" th:if="${curBlog.commentLabeled}">
+                    <h3 class="ui header m-padded-tb-small">Comments</h3>
+                    <div class="m-padded-tb-large">
+                        <th:block th:each="comment:${commentList}">
+                            <div class="comment">
+                                <p class="avatar">
+                                    <img src="/images/footer.jpg" th:src="${comment.avatar}">
+                                </p>
+                                <div class="content">
+                                    <a class="author" th:text="${comment.nickname}+' '+${comment.email}">
+                                        Matt
+                                    </a>
+                                    <div class="metadata">
+                                        <span class="date"
+                                              th:text="${new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').format(comment.createTime)}"></span>
+                                    </div>
+                                    <div class="text" th:text="${comment.content}">太赞了！</div>
+                                </div>
+                            </div>
+                        </th:block>
+
+                    </div>
+
+                    <form class="ui reply form" method="post" th:action="@{/comment}">
+                        <input type="hidden" name="blogId" th:value="${curBlog.id}">
+                        <div class="field" style="width: 100%;">
+                            <textarea name="content" placeholder="请输入评论..."></textarea>
+                        </div>
+                        <div class="fields">
+                            <div class="field m-mobile-width m-margin-tb-small">
+                                <div class="ui left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" name="nickname" placeholder="姓名">
+                                </div>
+                            </div>
+                            <div class="field m-mobile-width m-margin-tb-small">
+                                <div class="ui left icon input">
+                                    <i class="mail icon"></i>
+                                    <input type="text" name="email" placeholder="邮箱">
+                                </div>
+                            </div>
+                            <div class="field m-mobile-width m-margin-tb-small">
+                                <div class="ui basic labeled submit icon button">
+                                    <i class="icon edit"></i> Add Reply
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui error message"></div>
+                    </form>
+
+                </div>
+                <div class="ui comments" th:unless="${curBlog.commentLabeled}">评论区已关闭</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-fixed-position m-right-bottom m-padded-small">
+    <div class="ui vertical icon buttons">
+        <button type="button" href="#" class="ui toc red button">目录</button>
+        <a href="#comment-container" class="ui red button">留言</a>
+        <a href="#" class="ui button"><i class="chevron up icon"></i></a>
+    </div>
+</div>
+<div class="ui toc-container flowing popup transition hidden" style="width: 250px;">
+    <ol class="js-toc"></ol>
+</div>
+
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted stackable divided grid">
+            <div class="three wide column" style="display: flex; justify-content: center;">
+                <img class="ui rounded image" src="../static/images/footer.jpg" sizes="100%" width="200px">
+            </div>
+            <div class="three wide column">
+                <h3 class="ui inverted header opacity-font">最新文章</h3>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">hello world</a>
+                    <a href="#" class="item">JavaSE</a>
+                    <a href="#" class="item">frameworks</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h3 class="ui inverted header opacity-font">About Me</h3>
+                <p class="opacity-font">
+                    这是我的个人博客练手项目，欢迎评论。
+                </p>
+                <p class="opacity-font m-mobile-hidden">
+                    赞助网络乞丐👉
+                </p>
+                <p class="opacity-font m-mobile-show">
+                    赞助网络乞丐👇
+                </p>
+                <p class="thin-font opacity-font">
+                    Copyright©2023-2024 Designed by ntrRanger
+                </p>
+            </div>
+            <div class="three wide column" style="display: flex; justify-content: center;">
+                <img class="ui rounded image" src="../static/images/paycode.jpg" sizes="100%" width="200px">
+            </div>
+            <div class=""></div>
+        </div>
+    </div>
+</footer>
+
+<th:block th:replace="_fragments :: script">
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../static/js/semantic.min.js"></script>
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js"></script>
+</th:block>
+
+<script>
+
+    $('#sidebarButton').click(function () {
+        $('.m-item').toggleClass('m-mobile-hidden');
+    });
+    tocbot.init({
+        tocSelector: '.js-toc',
+        contentSelector: '.js-toc-content',
+        headingSelector: 'h1, h2, h3, h4, h5, h6',
+        hasInnerContainers: true,
+
+    });
+    $('.toc.button').popup({
+        popup: $('.toc-container.popup'),
+        on: 'click',
+        position: 'top center'
+    });
+    $('.ui.form').form({
+        fields: {
+            title: {
+                identifier: 'nickname',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入您的昵称！'
+                }]
+            },
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: '内容不能为空！'
+                }]
+            }
+        }
+    });
+
+</script>
+</body>
+
+</html>
