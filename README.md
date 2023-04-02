@@ -1,6 +1,6 @@
 # Blog
 
-### 开发环境：
+### 开发环境
 * JDK 8
 * SpringBoot 2.7.1
 * Mybatis
